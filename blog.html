@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="./images/small-logo.jpg" type="image/x-icon">
+    <!-- Css -->
+    <link rel="stylesheet" href="./lib/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./lib/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="./lib/Swiper/swiper-bundle.min.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <!-- Js -->
+    <script defer src="./lib/Popper/popper.min.js"></script>
+    <script defer src="./lib/bootstrap/js/bootstrap.min.js"></script>
+    <script defer src="./lib/fontawesome/js/all.min.js"></script>
+    <script defer src="./lib/Swiper/swiper-bundle.min.js"></script>
+    <script defer src="./lib/Angularjs/angular.min.js"></script>
+    <script defer src="./lib/Angularjs/angular-route.min.js"></script>
+    <script defer src="./js/main.js"></script>
+    <title>Nhóm 2</title>
+</head>
+
+<body ng-app="myApp" ng-controller="mainController" >
+    <div class="spinner vw-100 vh-100 bg-white position-fixed d-flex align-items-center justify-content-around"
+        style="z-index: 100;">
+        <div></div>
+    </div>
+    <div ng-controller="sizeController">
+        <header id="header" class="d-flex align-items-center justify-content-around flex-wrap">
+            <div ng-if="checkWindowWidth" class="w-100">
+                <nav class="navbar navbar-expand-md container-xxl header-introduce" id = "TopNav">
+                    <div class="container-fluid">
+                        <a class="navbar-brand" href="index.html"><img src="./images/logo.png" alt="" class="w-100"></a>
+                        <div class="collapse navbar-collapse align-items-center justify-content-between"
+                            id="navbarSupportedContent">
+                            <div class="d-flex align-items-center fs-4">
+                                <span class="header-text-custom">Tuyển dụng IT&nbsp;</span>hàng đầu
+                            </div>
+                            <div class="d-flex">
+                                <ul class="navbar-nav justify-content-evenly align-items-center w-100">
+                                    <li class="nav-item px-3 border-end">
+                                        <a href="" class="d-flex align-items-center header-link">
+                                            <i class="fa-solid fa-phone me-2"></i>
+                                            <div>02862733496</div>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item px-3 border-end">
+                                        <a href="" class="d-flex align-items-center header-link">
+                                            <i class="fa-solid fa-user-plus me-2"></i>
+                                            <div>{{listText.Header.NavTop.Recruit[language]}}</div>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item px-3 border-end">
+                                        <a href="" class="d-flex align-items-center header-link">
+                                            <i class="fa-solid fa-book me-2"></i>
+                                            <div>{{listText.Header.NavTop.Contact[language]}}</div>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item d-flex align-items-center px-3">
+                                        <div class="header-language cursor" ng-class = "{'d-none' : (language == 'vi-VN')}"><img src="./images/united-kingdom.png" class="w-100"
+                                            ng-click = "toggleLanguage()"></div>
+                                        <div class="header-language cursor" ng-class = "{'d-none' : (language == 'en-US')}"><img src="./images/vietnam.png" class="w-100"
+                                            ng-click = "toggleLanguage()"></div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+                <div class="bg-dark w-100 header-main-nav d-flex align-items-center">
+                    <nav class="navbar navbar-expand-md header-top container-xxl">
+                        <div class="container-fluid">
+                            <ul class="navbar-nav ms-3">
+                                <li class="nav-item">
+                                    <a class="nav-link text-light fw-semibold" aria-current="page" href="index.html">{{listText.Header.Nav.Home[language]}}</a>
+                                </li>
+                                <li class="nav-item ms-3">
+                                    <a class="nav-link text-light fw-semibold" aria-current="page" href="tracnghiem.html">{{listText.Header.Nav.Test[language]}}</a>
+                                </li>
+                                <li class="nav-item ms-3">
+                                    <a class="nav-link text-light fw-semibold" aria-current="page" href="dangtuyen.html">{{listText.Header.Nav.Recruit[language]}}</a>
+                                </li>
+                                <li class="nav-item ms-3">
+                                    <a class="nav-link text-light fw-semibold" aria-current="page" href="blog.html">Blog IT</a>
+                                </li>
+                            </ul>
+                            <ul class="navbar-nav" ng-if = "!state">
+                                <li class="nav-item px-2">
+                                    <a href="signin.html"><button class="my-btn">{{listText.Header.Button.Signin[language]}}</button></a>
+                                </li>
+                                <li class="nav-item px-2">
+                                    <a href="signup.html"><button class="my-btn my-btn-small my-btn-outline">{{listText.Header.Button.Signup[language]}}</button></a>
+                                </li>
+                            </ul>
+                            <div class="d-flex align-items-center justify-content-end me-4 position-relative" style="width: 15%;" ng-if = "state">
+                                <div style="width: 15%;" class=""><img src="./images/avt-none.jpg" alt=""
+                                        class="w-100 h-100 rounded-circle"></div>
+                                <div class="fw-semibold text-light text-end cursor" style="width: 63%;" ng-click = "toggleExit()">{{listText.Header.Button.Username[language]}} <i class="ms-1 fa-solid fa-sort-down text-light" style="margin-bottom: 1px;"></i></div>
+                                <div class="position-absolute px-4 py-3 bg-white shadow rounded" style="top: 150%;" ng-if = "showExit">
+                                    <div class="border border-0 border-bottom">
+                                        <div class="mb-2 fw-semibold cursor hover-text">Thông tin cá nhân</div>
+                                        <div class="mb-2 fw-semibold cursor hover-text">Cài đặt</div>
+                                    </div>
+                                    <div class="mt-2 fw-semibold cursor hover-text" ng-click = "Exit()">Đăng xuất</div>
+                                </div>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+                <div class="bg-dark w-100 header-main-nav d-flex align-items-center position-fixed top-0" ng-if = "scrollTop > getTopNavHeight() && checkWindowWidth" style="z-index: 99;">
+                    <nav class="navbar navbar-expand-md header-top container-xxl">
+                        <div class="container-fluid">
+                            <ul class="navbar-nav ms-3">
+                                <li class="nav-item">
+                                    <a class="nav-link text-light fw-semibold" aria-current="page" href="index.html">{{listText.Header.Nav.Home[language]}}</a>
+                                </li>
+                                <li class="nav-item ms-3">
+                                    <a class="nav-link text-light fw-semibold" aria-current="page" href="tracnghiem.html">{{listText.Header.Nav.Test[language]}}</a>
+                                </li>
+                                <li class="nav-item ms-3">
+                                    <a class="nav-link text-light fw-semibold" aria-current="page" href="dangtuyen.html">{{listText.Header.Nav.Recruit[language]}}</a>
+                                </li>
+                                <li class="nav-item ms-3">
+                                    <a class="nav-link text-light fw-semibold" aria-current="page" href="blog.html">Blog IT</a>
+                                </li>
+                            </ul>
+                            <ul class="navbar-nav" ng-if = "!state">
+                                <li class="nav-item px-2">
+                                    <a href="signin.html"><button class="my-btn">{{listText.Header.Button.Signin[language]}}</button></a>
+                                </li>
+                                <li class="nav-item px-2">
+                                    <a href="signup.html"><button class="my-btn my-btn-small my-btn-outline">{{listText.Header.Button.Signup[language]}}</button></a>
+                                </li>
+                            </ul>
+                            <div class="d-flex align-items-center justify-content-end me-4 position-relative" style="width: 15%;" ng-if = "state">
+                                <div style="width: 15%;" class=""><img src="./images/avt-none.jpg" alt=""
+                                        class="w-100 h-100 rounded-circle"></div>
+                                <div class="fw-semibold text-light text-end cursor" style="width: 63%;" ng-click = "toggleExit()">{{listText.Header.Button.Username[language]}} <i class="ms-1 fa-solid fa-sort-down text-light" style="margin-bottom: 1px;"></i></div>
+                                <div class="position-absolute px-4 py-3 bg-white shadow rounded" style="top: 150%;" ng-if = "showExit">
+                                    <div class="border border-0 border-bottom">
+                                        <div class="mb-2 fw-semibold cursor hover-text">Thông tin cá nhân</div>
+                                        <div class="mb-2 fw-semibold cursor hover-text">Cài đặt</div>
+                                    </div>
+                                    <div class="mt-2 fw-semibold cursor hover-text" ng-click = "Exit()">Đăng xuất</div>
+                                </div>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+            <div ng-if = "!checkWindowWidth">
+                <div class="position-fixed top-0 start-0 z-4 bg-white w-100">
+                    <div class="d-flex border-bottom align-items-center">
+                        <nav class="navbar navbar-expand-md w-25">
+                            <div class="container-fluid">
+                                <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" ng-click = "toggleMenuMobile()"
+                                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                                    <span class="navbar-toggler-icon"></span>
+                                </button>
+                            </div>
+                        </nav>
+                        <div class="w-50 d-flex flex-column align-items-center justify-content-around pt-3 pb-1">
+                            <img src="./images/logo.png" alt="" class="w-75">
+                            <h6 class="text-secondary mt-1">Tuyển dụng IT hàng đầu</h6>
+                        </div>
+                        <div class="w-25 text-center"><i class="fa-solid fa-user"></i></div>
+                    </div>      
+                    <div class="collapse navbar-collapse left-in position-absolute top-0 z-5 w-100 vh-100 overflow-hidden bg-my-primary bg-gradient" id="navbarNav" style="opacity: 1;">
+                        <div class="px-5 py-4">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <div class="header-language cursor" ng-class = "{'d-none' : (language == 'vi-VN')}"><img src="./images/united-kingdom.png" class="w-100"
+                                        ng-click = "toggleLanguage()"></div>
+                                    <div class="header-language cursor" ng-class = "{'d-none' : (language == 'en-US')}"><img src="./images/vietnam.png" class="w-100"
+                                        ng-click = "toggleLanguage()"></div>
+                                </div>
+                                <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" ng-click = "toggleMenuMobile()">
+                                    <i class="fa-solid fa-xmark text-light" style="font-size: 2.5rem;"></i>
+                                </button>
+                            </div>
+                            <ul class="navbar-nav text-light mt-3">
+                                <li class="nav-item">
+                                    <a class="nav-link fw-semibold fs-2 active" aria-current="page" href="index.html">{{listText.Header.Nav.Home[language]}}</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link fw-semibold fs-2" href="tracnghiem.html">{{listText.Header.Nav.Test[language]}}</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link fw-semibold fs-2" href="dangtuyen.html">{{listText.Header.Nav.Recruit[language]}}</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link fw-semibold fs-2" href="blog.html">Blog IT</a>
+                                </li>
+                                <li class="nav-item mt-3">
+                                    <div class="d-flex" ng-if = "!state">
+                                        <div class="px-2">
+                                            <a href="signin.html"><button class="my-btn my-btn-outline">{{listText.Header.Button.Signin[language]}}</button></a>
+                                        </div>
+                                        <div class="px-2">
+                                            <a href="signup.html"><button class="my-btn my-btn-small my-btn-outline">{{listText.Header.Button.Signup[language]}}</button></a>
+                                        </div>
+                                    </div>
+                                    <div class="cursor fw-semibold fs-2" ng-if = "state" ng-click = "Exit()">Exit</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <main>
+            <section ng-class = "{'px-5' : (checkWindowWidth)}" class="mb-5">
+                <section id = "BlogTop" class="my-5 py-5">
+                    <div ng-if = "checkWindowWidth">
+                        <div class="container-xxl d-flex" style="height: 350px">
+                            <div class="w-50 overflow-hidden Blog-item Blog-item-hover cursor">
+                                <img ng-src = "{{listBlog[4].image}}" alt="" class="w-100 h-100">
+                                <div class="position-absolute bottom-0 z-2 text-light p-3">
+                                    <h2 class="shadow-sm w-75">{{listBlog[4].title}}</h2>
+                                    <p>{{listBlog[4].time}}</p>
+                                </div>
+                            </div>
+                            <div class="w-25 overflow-hidden Blog-item Blog-item-hover cursor">
+                                <img ng-src = "{{listBlog[7].image}}" alt="" class="h-100">
+                                <div class="position-absolute bottom-0 z-2 text-light p-3">
+                                    <h2 class="shadow-sm w-75">{{listBlog[7].title}}</h2>
+                                    <p>{{listBlog[7].time}}</p>
+                                </div>
+                            </div>
+                            <div class="w-25 overflow-hidden Blog-item Blog-item-hover cursor">
+                                <img ng-src = "{{listBlog[9].image}}" alt="" class="h-100">
+                                <div class="position-absolute bottom-0 z-2 text-light p-3">
+                                    <h2 class="shadow-sm w-75">{{listBlog[9].title}}</h2>
+                                    <p>{{listBlog[9].time}}</p>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-if = "!checkWindowWidth">
+                        <div class="row gx-0 gy-1">
+                            <div class="col-12" ng-repeat = "item in [4,7,9]">
+                               <div class="position-relative Blog-item">
+                                    <div style="height: 150px;">
+                                        <img ng-src = "{{listBlog[item].image}}" alt="" class="w-100 h-100">
+                                    </div>
+                                    <div class="position-absolute bottom-0 z-2 text-light ps-3">
+                                        <h4 class="shadow-sm w-100">{{listBlog[item].title}}</h4>
+                                        <p>{{listBlog[item].time}}</p>
+                                    </div>
+                               </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section id = "BlogNews" class="mt-5">
+                    <div class="container-xxl">
+                        <h2 class="fw-bold my-3" ng-class = "{'text-center': 768 >= windowWidth}">{{listText.Blog.New[language]}}</h2>
+                        <div class="row gy-5" ng-if = "checkWindowWidth">
+                            <div class="col-2-4" ng-repeat = "blog in listBlog.slice(listBlog.length-10, listBlog.length)">
+                                <div class="hover-text">
+                                    <div class="d-flex align-items-center justify-content-around ">
+                                        <img ng-src="{{blog.image}}" alt="" class="w-100 cursor">
+                                    </div>
+                                    <div class="fw-bold cursor lh-sm mt-3">{{blog.title}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-if = "!checkWindowWidth">
+                            <div class="row gx-0" >
+                                <div class="col-12" ng-repeat = "blog in listBlog.slice(listBlog.length-10, listBlog.length)">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <div style="width: 40%">
+                                            <img ng-src="{{blog.image}}" alt="" class="w-100">
+                                        </div>
+                                        <div style="width: 55%;">
+                                            <h6>{{blog.title}}</h6>
+                                            <span class="text-secondary">{{blog.time}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section id = "Banner" class="mt-5 pt-3">
+                    <div class="container" ng-class = "{'px-5': checkWindowWidth}">
+                        <div class="swiper Banner-swiper">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide" ng-repeat = "banner in listBanner">
+                                    <img ng-src="{{banner}}" alt="" class="w-100" style="height: 100px;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section id = "ThreeList" class="mt-5 mb-5" ng-if = "checkWindowWidth">
+                    <div class="container-xxl">
+                        <div class="row">
+                            <div class="col-4 px-4" ng-repeat = "item in listText.Blog.ThreeList">
+                                <h2 class="fw-bold">{{item[language]}}</h2>
+                                <div class="Blog-item Blog-item-hover overflow-hidden cursor mt-4">
+                                    <img ng-src="{{listBlog[$index].image}}" alt="" class="w-100 h-100">
+                                    <div class="position-absolute bottom-0 px-3 z-2 text-light">
+                                        <h5 class="shadow-sm w-75 ">{{listBlog[$index].title}}</h5>
+                                        <p>{{listBlog[$index].time}}</p>
+                                    </div>
+                                </div>
+                                <div class="mt-4">
+                                    <div ng-repeat = "blog in listBlog.slice(0+$index*5,5+$index*5)">
+                                        <div class="row mt-4 cursor" style="height: 70px;">
+                                            <div class="col-4 "><img ng-src="{{blog.image}}" alt="" class="w-100 h-100 "></div>
+                                            <div class="col-8 d-flex align-items-center">
+                                                <div class="py-1">
+                                                    <h6 class="hover-text">{{blog.title}}</h6>
+                                                    <span class="text-secondary">{{blog.time}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="mt-5" ng-if = "checkWindowWidth">
+                    <div class="container-xxl">
+                        <div class="row gx-5">
+                            <div class="col-8 ">
+                                <h2 class="fw-bold">{{listText.Blog.Expert[language]}}</h2>
+                                <div class="row gx-2 gy-2 mt-5">
+                                    <div class="col-6" ng-repeat = "blog in listBlog.slice(3, 9)">
+                                        <div class="Blog-item Blog-item-hover overflow-hidden cursor">
+                                            <img ng-src="{{blog.image}}" alt="" class="w-100">
+                                            <div class="position-absolute bottom-0 z-2 text-light p-3">
+                                                <h5 class="shadow-sm w-75">{{blog.title}}</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <h2 class="fw-bold">Workshop</h2>
+                                <div class="row mt-5">
+                                    <div class="col-12 d-flex flex-column" ng-repeat = "blog in listBlog.slice(11,14)" ng-class = "{'mt-2': ($index == 0), 'mt-4': ($index != 0) }" style="width: 85%;">
+                                        <img ng-src="{{blog.image}}" alt="">
+                                        <h4 class="mt-2 text-break">{{blog.title}}</h4>
+                                        <span class="text-secondary">{{blog.time}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </section>
+        </main>
+
+        <section id="ScrollToTop" ng-if="scrollTop > 150 && checkWindowWidth">
+            <div class="position-fixed bottom-0 end-0 mb-5 me-4 z-1">
+                <div class="me-2">
+                    <div ng-click="scrollToTop()">
+                        <i class="fa-solid fa-chevron-up p-2 bg-my-primary text-light fs-3 fw-bold cursor fade"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="ChatBox" ng-if="checkWindowWidth">
+            <div class="position-fixed bottom-0 end-0 mb-4 me-4 z-3">
+                <div ng-click="toggleChatbox()">
+                    <i class="fa-solid fa-headset fs-2 ChatBox-logo p-3 rounded-circle"></i>
+                </div>
+            </div>
+            <div class="position-fixed bottom-0 end-0 mb-5 me-4 z-2">
+                <div class="ChatBox rounded mb-5 border border-light shadow fade" ng-if="checkChatBox">
+                    <div
+                        class="ChatBox-header d-flex align-items-center justify-content-around text-center text-light px-3">
+                        <h5>Bạn cần hỗ trợ gì về sản phẩm/dịch vụ của chúng tôi?</h5>
+                    </div>
+
+
+                    <div class="ChatBox-body bg-white overflow-auto px-3 pb-3">
+                        <div ng-repeat="message in listMessage.slice(-7) track by $index" ng-init="scrollToBottom()">
+                            <div class="d-flex justify-content-end">
+                                <div class="w-75 d-flex justify-content-end">
+                                    <div class="shadow-sm border rounded mt-3 px-3 py-2"
+                                        style="word-break: break-word;">{{message}}</div>
+                                </div>
+                            </div>
+                            <div class="d-flex w-75">
+                                <div class="shadow-sm border rounded mt-3 px-3 py-2">{{listTroll[$index] ?
+                                    listTroll[$index] : "Bạn vui lòng đợi ít phút"}}</div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="ChatBox-footer border-top bg-white ">
+                        <div class="row h-100 gx-0">
+                            <div class="col-10">
+                                <div class="h-100 py-2 ps-4">
+                                    <input type="text" class="w-100 h-100 border-0" placeholder="Send a message..."
+                                        ng-keyup="sendMessage($event.keyCode)">
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="h-100 d-flex align-items-center justify-content-around">
+                                    <div ng-click="sendMessage()">
+                                        <i class="fa-solid fa-paper-plane text-my-primary fs-5 cursor p-2"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <div class="bg-dark p-5 d-flex w-100 vh-50 justify-content-between fs-6 text-white flex-md-row flex-column">
+
+                <div class=" col-md-4 p-1  d-flex flex-column col-12">
+                    <div class="logo">
+                        <img style="width:35%; margin-bottom: 20px;" src="./images/logo.png" alt="">
+                    </div>
+
+                    <p ng-repeat="text in listText.Footer.Discriptions[language]">{{text}}</p>
+
+
+
+                </div>
+
+                <div class="p-1 col-md-2 d-flex flex-column col-12" ng-repeat="item in [1, 2, 3]">
+                    <p class="mb-3 fw-bold">{{listText.Footer["Heading" + item][language]}}</p>
+                    <p class="cursor hover-text lh-1" ng-repeat="text in listText.Footer['List' + item][language]">
+                        {{text}}</p>
+                </div>
+
+                <div class="d-flex col-md-2 flex-column col-12">
+                    <div class="p-1 d-flex flex-column ">
+                        <p class="mb-3 fw-bold">Follow </p>
+                        <div class="fl" style="display:flex;">
+                            <div class="social"><i style="font-size: 2.5em;"
+                                    class="fa-brands fa-square-facebook m-1 text-light cursor"></i></div>
+                            <div class="social"><i style="font-size: 2.5em;"
+                                    class="fa-brands fa-square-instagram m-1 text-light cursor"></i></div>
+                            <div class="social"><i style="font-size: 2.5em;"
+                                    class="fa-brands fa-youtube m-1 text-light cursor"></i></div>
+                        </div>
+
+                    </div>
+                    <div class="fl " style="margin:3px; display: flex; justify-content:left;">
+                        <div class="w-50 m-1 cursor"><img class="w-100" src="./images/app_store_img.png" alt=""></div>
+                        <div class="w-50 m-1 cursor"><img class="w-100" src="./images/google_play_img.png" alt=""></div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+</body>
+
+</html>

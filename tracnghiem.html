@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="./images/small-logo.jpg" type="image/x-icon">
+    <!-- Css -->
+    <link rel="stylesheet" href="./lib/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./lib/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="./lib/Swiper/swiper-bundle.min.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <!-- Js -->
+    <script defer src="./lib/Popper/popper.min.js"></script>
+    <script defer src="./lib/bootstrap/js/bootstrap.min.js"></script>
+    <script defer src="./lib/fontawesome/js/all.min.js"></script>
+    <script defer src="./lib/Swiper/swiper-bundle.min.js"></script>
+    <script defer src="./lib/Angularjs/angular.min.js"></script>
+    <script defer src="./lib/Angularjs/angular-route.min.js"></script>
+    <script defer src="./js/main.js"></script>
+    <title>Nhóm 2</title>
+</head>
+
+<body ng-app="myApp" ng-controller="mainController" >
+    <div class="spinner vw-100 vh-100 bg-white position-fixed d-flex align-items-center justify-content-around"
+        style="z-index: 100;">
+        <div></div>
+    </div>
+    <div ng-controller="sizeController" ng-init = "onRenderComplete()">
+        <header id="header" class="d-flex align-items-center justify-content-around flex-wrap">
+            <div ng-if="checkWindowWidth" class="w-100">
+                <nav class="navbar navbar-expand-md container-xxl header-introduce" id = "TopNav">
+                    <div class="container-fluid">
+                        <a class="navbar-brand" href="index.html"><img src="./images/logo.png" alt="" class="w-100"></a>
+                        <div class="collapse navbar-collapse align-items-center justify-content-between"
+                            id="navbarSupportedContent">
+                            <div class="d-flex align-items-center fs-4">
+                                <span class="header-text-custom">Tuyển dụng IT&nbsp;</span>hàng đầu
+                            </div>
+                            <div class="d-flex">
+                                <ul class="navbar-nav justify-content-evenly align-items-center w-100">
+                                    <li class="nav-item px-3 border-end">
+                                        <a href="" class="d-flex align-items-center header-link">
+                                            <i class="fa-solid fa-phone me-2"></i>
+                                            <div>02862733496</div>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item px-3 border-end">
+                                        <a href="" class="d-flex align-items-center header-link">
+                                            <i class="fa-solid fa-user-plus me-2"></i>
+                                            <div>{{listText.Header.NavTop.Recruit[language]}}</div>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item px-3 border-end">
+                                        <a href="" class="d-flex align-items-center header-link">
+                                            <i class="fa-solid fa-book me-2"></i>
+                                            <div>{{listText.Header.NavTop.Contact[language]}}</div>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item d-flex align-items-center px-3">
+                                        <div class="header-language cursor" ng-class = "{'d-none' : (language == 'vi-VN')}"><img src="./images/united-kingdom.png" class="w-100"
+                                            ng-click = "toggleLanguage()"></div>
+                                        <div class="header-language cursor" ng-class = "{'d-none' : (language == 'en-US')}"><img src="./images/vietnam.png" class="w-100"
+                                            ng-click = "toggleLanguage()"></div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+                <div class="bg-dark w-100 header-main-nav d-flex align-items-center">
+                    <nav class="navbar navbar-expand-md header-top container-xxl">
+                        <div class="container-fluid">
+                            <ul class="navbar-nav ms-3">
+                                <li class="nav-item">
+                                    <a class="nav-link text-light fw-semibold" aria-current="page" href="index.html">{{listText.Header.Nav.Home[language]}}</a>
+                                </li>
+                                <li class="nav-item ms-3">
+                                    <a class="nav-link text-light fw-semibold" aria-current="page" href="tracnghiem.html">{{listText.Header.Nav.Test[language]}}</a>
+                                </li>
+                                <li class="nav-item ms-3">
+                                    <a class="nav-link text-light fw-semibold" aria-current="page" href="dangtuyen.html">{{listText.Header.Nav.Recruit[language]}}</a>
+                                </li>
+                                <li class="nav-item ms-3">
+                                    <a class="nav-link text-light fw-semibold" aria-current="page" href="blog.html">Blog IT</a>
+                                </li>
+                            </ul>
+                            <ul class="navbar-nav" ng-if = "!state">
+                                <li class="nav-item px-2">
+                                    <a href="signin.html"><button class="my-btn">{{listText.Header.Button.Signin[language]}}</button></a>
+                                </li>
+                                <li class="nav-item px-2">
+                                    <a href="signup.html"><button class="my-btn my-btn-small my-btn-outline">{{listText.Header.Button.Signup[language]}}</button></a>
+                                </li>
+                            </ul>
+                            <div class="d-flex align-items-center justify-content-end me-4 position-relative" style="width: 15%;" ng-if = "state">
+                                <div style="width: 15%;" class=""><img src="./images/avt-none.jpg" alt=""
+                                        class="w-100 h-100 rounded-circle"></div>
+                                <div class="fw-semibold text-light text-end cursor" style="width: 63%;" ng-click = "toggleExit()">{{listText.Header.Button.Username[language]}} <i class="ms-1 fa-solid fa-sort-down text-light" style="margin-bottom: 1px;"></i></div>
+                                <div class="position-absolute px-4 py-3 bg-white shadow rounded" style="top: 150%;" ng-if = "showExit">
+                                    <div class="border border-0 border-bottom">
+                                        <div class="mb-2 fw-semibold cursor hover-text">Thông tin cá nhân</div>
+                                        <div class="mb-2 fw-semibold cursor hover-text">Cài đặt</div>
+                                    </div>
+                                    <div class="mt-2 fw-semibold cursor hover-text" ng-click = "Exit()">Đăng xuất</div>
+                                </div>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+                <div class="bg-dark w-100 header-main-nav d-flex align-items-center position-fixed top-0" ng-if = "scrollTop > getTopNavHeight() && checkWindowWidth" style="z-index: 99;">
+                    <nav class="navbar navbar-expand-md header-top container-xxl">
+                        <div class="container-fluid">
+                            <ul class="navbar-nav ms-3">
+                                <li class="nav-item">
+                                    <a class="nav-link text-light fw-semibold" aria-current="page" href="index.html">{{listText.Header.Nav.Home[language]}}</a>
+                                </li>
+                                <li class="nav-item ms-3">
+                                    <a class="nav-link text-light fw-semibold" aria-current="page" href="tracnghiem.html">{{listText.Header.Nav.Test[language]}}</a>
+                                </li>
+                                <li class="nav-item ms-3">
+                                    <a class="nav-link text-light fw-semibold" aria-current="page" href="dangtuyen.html">{{listText.Header.Nav.Recruit[language]}}</a>
+                                </li>
+                                <li class="nav-item ms-3">
+                                    <a class="nav-link text-light fw-semibold" aria-current="page" href="blog.html">Blog IT</a>
+                                </li>
+                            </ul>
+                            <ul class="navbar-nav" ng-if = "!state">
+                                <li class="nav-item px-2">
+                                    <a href="signin.html"><button class="my-btn">{{listText.Header.Button.Signin[language]}}</button></a>
+                                </li>
+                                <li class="nav-item px-2">
+                                    <a href="signup.html"><button class="my-btn my-btn-small my-btn-outline">{{listText.Header.Button.Signup[language]}}</button></a>
+                                </li>
+                            </ul>
+                            <div class="d-flex align-items-center justify-content-end me-4 position-relative" style="width: 15%;" ng-if = "state">
+                                <div style="width: 15%;" class=""><img src="./images/avt-none.jpg" alt=""
+                                        class="w-100 h-100 rounded-circle"></div>
+                                <div class="fw-semibold text-light text-end cursor" style="width: 63%;" ng-click = "toggleExit()">{{listText.Header.Button.Username[language]}} <i class="ms-1 fa-solid fa-sort-down text-light" style="margin-bottom: 1px;"></i></div>
+                                <div class="position-absolute px-4 py-3 bg-white shadow rounded" style="top: 150%;" ng-if = "showExit">
+                                    <div class="border border-0 border-bottom">
+                                        <div class="mb-2 fw-semibold cursor hover-text">Thông tin cá nhân</div>
+                                        <div class="mb-2 fw-semibold cursor hover-text">Cài đặt</div>
+                                    </div>
+                                    <div class="mt-2 fw-semibold cursor hover-text" ng-click = "Exit()">Đăng xuất</div>
+                                </div>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+            <div ng-if = "!checkWindowWidth">
+                <div class="position-fixed top-0 start-0 z-4 bg-white w-100">
+                    <div class="d-flex border-bottom align-items-center">
+                        <nav class="navbar navbar-expand-md w-25">
+                            <div class="container-fluid">
+                                <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" ng-click = "toggleMenuMobile()"
+                                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                                    <span class="navbar-toggler-icon"></span>
+                                </button>
+                            </div>
+                        </nav>
+                        <div class="w-50 d-flex flex-column align-items-center justify-content-around pt-3 pb-1">
+                            <img src="./images/logo.png" alt="" class="w-75">
+                            <h6 class="text-secondary mt-1">Tuyển dụng IT hàng đầu</h6>
+                        </div>
+                        <div class="w-25 text-center"><i class="fa-solid fa-user"></i></div>
+                    </div>      
+                    <div class="collapse navbar-collapse left-in position-absolute top-0 z-5 w-100 vh-100 overflow-hidden bg-my-primary bg-gradient" id="navbarNav" style="opacity: 1;">
+                        <div class="px-5 py-4">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <div class="header-language cursor" ng-class = "{'d-none' : (language == 'vi-VN')}"><img src="./images/united-kingdom.png" class="w-100"
+                                        ng-click = "toggleLanguage()"></div>
+                                    <div class="header-language cursor" ng-class = "{'d-none' : (language == 'en-US')}"><img src="./images/vietnam.png" class="w-100"
+                                        ng-click = "toggleLanguage()"></div>
+                                </div>
+                                <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" ng-click = "toggleMenuMobile()">
+                                    <i class="fa-solid fa-xmark text-light" style="font-size: 2.5rem;"></i>
+                                </button>
+                            </div>
+                            <ul class="navbar-nav text-light mt-3">
+                                <li class="nav-item">
+                                    <a class="nav-link fw-semibold fs-2 active" aria-current="page" href="index.html">{{listText.Header.Nav.Home[language]}}</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link fw-semibold fs-2" href="tracnghiem.html">{{listText.Header.Nav.Test[language]}}</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link fw-semibold fs-2" href="dangtuyen.html">{{listText.Header.Nav.Recruit[language]}}</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link fw-semibold fs-2" href="blog.html">Blog IT</a>
+                                </li>
+                                <li class="nav-item mt-3">
+                                    <div class="d-flex" ng-if = "!state">
+                                        <div class="px-2">
+                                            <a href="signin.html"><button class="my-btn my-btn-outline">{{listText.Header.Button.Signin[language]}}</button></a>
+                                        </div>
+                                        <div class="px-2">
+                                            <a href="signup.html"><button class="my-btn my-btn-small my-btn-outline">{{listText.Header.Button.Signup[language]}}</button></a>
+                                        </div>
+                                    </div>
+                                    <div class="cursor fw-semibold fs-2" ng-if = "state" ng-click = "Exit()">Exit</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <main>
+            <section class="mb-5">
+                <div class="p-md-0 p-5"></div>
+                <section class="mt-5">
+                    <div class="container-xxl">
+                        <div class="row gx-0 px-3">
+                            <div class="col-md-6 col-12 mt-3">
+                                <h4 class="fw-bold text-my-primary">TOPDEV</h4>
+                                <h1 style="font-size: 4rem;" ng-class="{'w-75': checkWindowWidth, 'w-100' : !checkWindowWidth }">{{listText.Personality.Section1.Heading[language]}}</h1>
+                                <p class="fw-bold fs-5 mt-1" style="text-align: justify;">{{listText.Personality.Section1.Discriptions[language]}}</p>
+                                <button class="my-btn fw-bold mt-5">{{listText.Personality.Section1.Button[language]}}</button>
+                            </div>
+                            <div class="col-md-6 col-12 d-flex justify-content-around">
+                                <img src="./images/tracnghiem1.png" alt="" class="w-100">
+                            </div>
+                        </div>
+                        <div class="row gx-0 px-4 mt-3">
+                            <div class="col-md-6 col-12">
+                                <div class="d-flex">
+                                    <i class="fs-4 p-3 pt-1 fa-solid fa-robot"></i>
+                                    <div>
+                                        <h5 class="fw-bold">{{listText.Personality.Section1.SubHeading1[language]}}</h5>
+                                        <p style="text-align: justify;" class="fs-5">{{listText.Personality.Section1.Text1[language]}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-12">
+                                <div class="d-flex">
+                                    <i class="fs-4 p-3 pt-1 fa-solid fa-brain"></i>
+                                    <div>
+                                        <h5 class="fw-bold">{{listText.Personality.Section1.SubHeading2[language]}}</h5>
+                                        <p style="text-align: justify;" class="fs-5">{{listText.Personality.Section1.Text1[language]}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="mt-5">
+                    <div class="container-xxl">
+                        <div class="row gx-0 p-5" style="background-color: rgb(55 65 81); border-radius: 16px;">
+                            <div class="col-md-6 col-12 px-5 m-auto">
+                                <img src="./images/tracnghiem2.png" alt="" class="w-100">
+                            </div>
+                            <div class="col-md-6 col-12 text-light ">
+                                <h1 class="fw-bold" style="font-size: 4rem;">{{listText.Personality.Section2.Heading[language]}}</h1>
+                                <p class="fs-5 mt-5" style="text-align: justify;">{{listText.Personality.Section2.Text1[language]}}</p>
+                                <p class="fs-5 mt-5" style="text-align: justify;">{{listText.Personality.Section2.Text2[language]}}</p>
+                                <i class="fs-5 mt-5" style="text-align: justify;">{{listText.Personality.Section2.Text3[language]}}</i>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="mt-5">
+                    <div class="container-xxl">
+                        <div class="row gx-0 px-5">
+                            <div class="col-md-4 col-12">
+                                <div ng-class = "{'text-center' : !checkWindowWidth}">
+                                    <img src="./images/tnsmall1.png" alt="">
+                                    <h5 class="fw-bold mt-4">{{listText.Personality.Section3.Heading1[language]}}</h5>
+                                    <p class="fs-5 mt-4" ng-class = "{'text-center' : !checkWindowWidth}" style="text-align: justify;">{{listText.Personality.Section3.Text1[language]}}</p>
+                                </div>
+                                <div ng-class = "{'text-center' : !checkWindowWidth}">
+                                    <img src="./images/tnsmall2.png" alt="">
+                                    <h5 class="fw-bold mt-4">{{listText.Personality.Section3.Heading2[language]}}</h5>
+                                    <p class="fs-5 mt-4" ng-class = "{'text-center' : !checkWindowWidth}" style="text-align: justify;">{{listText.Personality.Section3.Text2[language]}}</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4 px-5 m-auto">
+                                <img src="./images/tracnghiem3.png" alt="" class="w-100">
+                            </div>
+                            <div class="col-md-4 col-12">
+                                <div ng-class = "{'text-center' : !checkWindowWidth}">
+                                    <img src="./images/tnsmall3.png" alt="">
+                                    <h5 class="fw-bold mt-4">{{listText.Personality.Section3.Heading3[language]}}</h5>
+                                    <p class="fs-5 mt-4" ng-class = "{'text-center' : !checkWindowWidth}" style="text-align: justify;">{{listText.Personality.Section3.Text3[language]}}</p>
+                                </div>
+                                <div ng-class = "{'text-center' : !checkWindowWidth}">
+                                    <img src="./images/tnsmall4.png" alt="">
+                                    <h5 class="fw-bold mt-4">{{listText.Personality.Section3.Heading4[language]}}</h5>
+                                    <p class="fs-5 mt-4" ng-class = "{'text-center' : !checkWindowWidth}" style="text-align: justify;">{{listText.Personality.Section3.Text4[language]}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="mt-5">
+                    <div class="container-xxl">
+                        <div class="" style="background-color: rgba(254,236,220,0.6); border-radius: 16px;">
+                            <div class="row gx-0 p-md-5 px-2 py-4">
+                                <div class="col-md-6 col-12">
+                                    <h1 class="fw-bold text-my-primary" style="font-size: 3rem;">Q&A</h1>
+                                    <div class="bg-white shadow py-4 px-3 d-flex mt-4" style="border-radius: 20px;">
+                                        <h1 class="fw-bold px-3">01</h1>
+                                        <div class="">
+                                            <h5 class="fw-bold">{{listText.Personality.Section4.HeadingQ1[language]}}</h5>
+                                            <p class="fs-5 mb-0">{{listText.Personality.Section4.TextQ1[language]}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-white shadow py-4 px-3 d-flex mt-4" style="border-radius: 20px;">
+                                        <h1 class="fw-bold px-3">02</h1>
+                                        <div class="">
+                                            <h5 class="fw-bold">{{listText.Personality.Section4.HeadingQ2[language]}}</h5>
+                                            <p class="fs-5 mb-0">{{listText.Personality.Section4.TextQ1[language]}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-white shadow py-4 px-3 d-flex mt-4" style="border-radius: 20px;">
+                                        <h1 class="fw-bold px-3">03</h1>
+                                        <div class="">
+                                            <h5 class="fw-bold">{{listText.Personality.Section4.HeadingQ3[language]}}</h5>
+                                            <p class="fs-5 mb-0">{{listText.Personality.Section4.TextQ1[language]}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12 d-flex flex-column align-items-center px-5 text-center mt-md-0 mt-5">
+                                    <h1>{{listText.Personality.Section4.Heading[language]}}</h1>
+                                    <p class="fs-5 mt-3">{{listText.Personality.Section4.Text[language]}}</p>
+                                    <button class="my-btn mt-3 fw-bold">{{listText.Personality.Section4.Button[language]}}</button>
+                                    <img src="./images/tnsmall5.png" alt="" class="mt-5">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </section>
+        </main>
+
+        <section id="ScrollToTop" ng-if="scrollTop > 150 && checkWindowWidth">
+            <div class="position-fixed bottom-0 end-0 mb-5 me-4 z-1">
+                <div class="me-2">
+                    <div ng-click="scrollToTop()">
+                        <i class="fa-solid fa-chevron-up p-2 bg-my-primary text-light fs-3 fw-bold cursor fade"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="ChatBox" ng-if="checkWindowWidth">
+            <div class="position-fixed bottom-0 end-0 mb-4 me-4 z-3">
+                <div ng-click="toggleChatbox()">
+                    <i class="fa-solid fa-headset fs-2 ChatBox-logo p-3 rounded-circle"></i>
+                </div>
+            </div>
+            <div class="position-fixed bottom-0 end-0 mb-5 me-4 z-2">
+                <div class="ChatBox rounded mb-5 border border-light shadow fade" ng-if="checkChatBox">
+                    <div
+                        class="ChatBox-header d-flex align-items-center justify-content-around text-center text-light px-3">
+                        <h5>Bạn cần hỗ trợ gì về sản phẩm/dịch vụ của chúng tôi?</h5>
+                    </div>
+
+
+                    <div class="ChatBox-body bg-white overflow-auto px-3 pb-3">
+                        <div ng-repeat="message in listMessage.slice(-7) track by $index" ng-init="scrollToBottom()">
+                            <div class="d-flex justify-content-end">
+                                <div class="w-75 d-flex justify-content-end">
+                                    <div class="shadow-sm border rounded mt-3 px-3 py-2"
+                                        style="word-break: break-word;">{{message}}</div>
+                                </div>
+                            </div>
+                            <div class="d-flex w-75">
+                                <div class="shadow-sm border rounded mt-3 px-3 py-2">{{listTroll[$index] ?
+                                    listTroll[$index] : "Bạn vui lòng đợi ít phút"}}</div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="ChatBox-footer border-top bg-white ">
+                        <div class="row h-100 gx-0">
+                            <div class="col-10">
+                                <div class="h-100 py-2 ps-4">
+                                    <input type="text" class="w-100 h-100 border-0" placeholder="Send a message..."
+                                        ng-keyup="sendMessage($event.keyCode)">
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="h-100 d-flex align-items-center justify-content-around">
+                                    <div ng-click="sendMessage()">
+                                        <i class="fa-solid fa-paper-plane text-my-primary fs-5 cursor p-2"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <div class="bg-dark p-5 d-flex w-100 vh-50 justify-content-between fs-6 text-white flex-md-row flex-column">
+
+                <div class=" col-md-4 p-1  d-flex flex-column col-12">
+                    <div class="logo">
+                        <img style="width:35%; margin-bottom: 20px;" src="./images/logo.png" alt="">
+                    </div>
+
+                    <p ng-repeat="text in listText.Footer.Discriptions[language]">{{text}}</p>
+
+
+
+                </div>
+
+                <div class="p-1 col-md-2 d-flex flex-column col-12" ng-repeat="item in [1, 2, 3]">
+                    <p class="mb-3 fw-bold">{{listText.Footer["Heading" + item][language]}}</p>
+                    <p class="cursor hover-text lh-1" ng-repeat="text in listText.Footer['List' + item][language]">
+                        {{text}}</p>
+                </div>
+
+                <div class="d-flex col-md-2 flex-column col-12">
+                    <div class="p-1 d-flex flex-column ">
+                        <p class="mb-3 fw-bold">Follow </p>
+                        <div class="fl" style="display:flex;">
+                            <div class="social"><i style="font-size: 2.5em;"
+                                    class="fa-brands fa-square-facebook m-1 text-light cursor"></i></div>
+                            <div class="social"><i style="font-size: 2.5em;"
+                                    class="fa-brands fa-square-instagram m-1 text-light cursor"></i></div>
+                            <div class="social"><i style="font-size: 2.5em;"
+                                    class="fa-brands fa-youtube m-1 text-light cursor"></i></div>
+                        </div>
+
+                    </div>
+                    <div class="fl " style="margin:3px; display: flex; justify-content:left;">
+                        <div class="w-50 m-1 cursor"><img class="w-100" src="./images/app_store_img.png" alt=""></div>
+                        <div class="w-50 m-1 cursor"><img class="w-100" src="./images/google_play_img.png" alt=""></div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+</body>
+
+</html>
